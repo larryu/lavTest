@@ -1,0 +1,65 @@
+import Vue from 'vue';
+import VueRouter from 'vue-router';
+import jwtToken from './helpers/jwt-token';
+import Store from './store/index'
+
+import HomeView from './components/Home.vue';
+import DashboardView from './components/Dashboard.vue';
+import RegisterView from './components/Register.vue';
+import LoginView from './components/Login.vue';
+import NotFoundView from './components/404.vue'
+import OrderDetailsView from './components/OrderDetails/OrderDetails.vue'
+import ItemsView from './components/Items/Items.vue'
+
+let routes = [
+    { path: '/login', component: LoginView, name: 'login', meta: { requiresGuest: true } },
+    { path: '/register', component: RegisterView, name: 'register', meta: {} },
+    { path: '/', component: HomeView, meta: { requiresAuth: true }, 
+        children: [
+            { path: '', component: OrderDetailsView, name: 'dashboard', meta: { requiresAuth: true } },
+            // { path: '/dashboard', redirect: {name: 'orderdetails'}, meta: { requiresAuth: true } },
+            { path: '/orderdetails', name: 'orderdetails', component: OrderDetailsView, meta: { requiresAuth: true } },
+            { path: '/items', component: ItemsView, meta: { requiresAuth: true } },    
+        ]
+    },
+    { path: '*', component: NotFoundView, meta: {} },  
+];
+
+const router = new VueRouter({
+    mode: 'history',
+    base: __dirname,
+    routes: routes,
+    // linkActiveClass: 'active'
+    scrollBehavior: function (to, from, savedPosition) {
+        return savedPosition || { x: 0, y: 0 }
+    }
+});
+
+router.beforeEach((to, from, next) => {
+    console.log('router.beforeEach Store.state.authUser.authenticated=', Store.state.authUser.authenticated);
+    // console.log('router.beforeEach from=', from);
+    // console.log('router.beforeEach to=', to);
+    Store.dispatch('hideErrorNotification');
+    
+    if(to.meta.requiresAuth) {
+        // console.log('router.beforeEach to.meta.requiresAuth=', to.meta.requiresAuth);
+        // console.log('router.beforeEach authenticated=', Store.state.authUser.authenticated);
+        // console.log('router.beforeEach getToken=', jwtToken.getToken());
+        if(Store.state.authUser.authenticated || jwtToken.getToken())
+            return next();
+        else
+            return next({name: 'login'});
+    }
+    if(to.meta.requiresGuest) {
+        // console.log('router.beforeEach to.meta.requiresGuest=', to.meta.requiresGuest);
+        // console.log('router.beforeEach authenticated=', Store.state.authUser.authenticated);
+        // console.log('router.beforeEach getToken=', jwtToken.getToken());
+        if(Store.state.authUser.authenticated || jwtToken.getToken())
+            return next({name: 'dashboard'});
+        else
+            return next();
+    }
+    next();
+});
+
+export default router;
