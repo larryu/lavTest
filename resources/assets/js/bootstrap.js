@@ -25,7 +25,6 @@ window.Vue = require('vue');
  * CSRF token as a header based on the value of the "XSRF" token cookie.
  */
 
-
 import VueRouter from 'vue-router'
 import VueResource from 'vue-resource';
 Vue.use(VueRouter);

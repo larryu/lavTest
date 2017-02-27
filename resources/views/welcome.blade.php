@@ -13,10 +13,11 @@
         <title>{{ config('app.name') }}</title>
         <script>
           window.Laravel = <?php echo json_encode([
-              'csrfToken' => csrf_token(),
-              'companyName' => config('app.company'),
-              'siteName'  => config('app.name'),
-              'apiDomain' => config('app.url').'/api'
+            'csrfToken' => csrf_token(),
+            'companyName' => config('app.company'),
+            'siteName'  => config('app.name'),
+            'apiDomain' => config('app.url').'/api',
+            'projectName'  => config('app.project_name'),
           ]); ?>
         </script>
     </head>

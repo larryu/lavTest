@@ -53,13 +53,14 @@
     
     import Vue from 'vue';
     import {mapGetters,mapState} from 'vuex'
+    import {projectName} from './../config';
 
     export default {
         components:{
         },
         data() {
             return {
-                projectName: "SEQ",
+                projectName: projectName,
             }
         },
         beforeCreate() {

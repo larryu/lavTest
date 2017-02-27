@@ -10,18 +10,27 @@ import LoginView from './components/Login.vue';
 import NotFoundView from './components/404.vue'
 import OrderDetailsView from './components/OrderDetails/OrderDetails.vue'
 import ItemsView from './components/Items/Items.vue'
+import UserListView from './components/Settings/UserList.vue'
+import RoleListView from './components/Settings/RoleList.vue'
 
 let routes = [
     { path: '/login', component: LoginView, name: 'login', meta: { requiresGuest: true } },
     { path: '/register', component: RegisterView, name: 'register', meta: {} },
     { path: '/', component: HomeView, meta: { requiresAuth: true }, 
         children: [
-            { path: '', component: OrderDetailsView, name: 'dashboard', meta: { requiresAuth: true } },
-            // { path: '/dashboard', redirect: {name: 'orderdetails'}, meta: { requiresAuth: true } },
-            { path: '/orderdetails', name: 'orderdetails', component: OrderDetailsView, meta: { requiresAuth: true } },
-            { path: '/items', component: ItemsView, meta: { requiresAuth: true } },    
+            { path: '/users', component: UserListView,  meta: { requiresAuth: true }},
+            { path: '/roles', component: RoleListView,  meta: { requiresAuth: true }},
+            { path: '', component: DashboardView, name: 'dashboard', meta: { requiresAuth: true },
+                children: [
+                    // { path: '/dashboard', redirect: {name: 'orderdetails'}, meta: { requiresAuth: true } },
+                    { path: '/orderdetails', name: 'orderdetails', component: OrderDetailsView, meta: { requiresAuth: true } },
+                    { path: '/items', component: ItemsView, meta: { requiresAuth: true } },
+                ]
+            },
+
         ]
     },
+
     { path: '*', component: NotFoundView, meta: {} },  
 ];
 

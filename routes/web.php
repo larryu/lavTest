@@ -15,41 +15,26 @@ Route::get('/{vue_capture?}', function () {
     return view('welcome');
 });
 
-Route::get('/test/test', function() {
+Route::get('/test/users', function() {
 
+    $user = App\Models\User::find(14);
 
-        $user = App\Models\User::find(14);
+    // 1) get the role of the user
+    $roles = $user->roles();
 
-    // 2) get all processes belongs to this component
-    $processes = App\Models\Process::where('active', 1)->where('component_id', 4)
-        ->get(['*', DB::raw('"RW" as permission')])->keyBy('id')->toArray();
+    // 2) check whether the roles have children
+    foreach($roles as role){
 
-    // 2) get accessible processes based on user
-    $aclProcesses = $user->getAclResourceByType(App\Models\ResourceType::PROCESS);
-    // 3) rebuild $mergedProcesses
-    // replace the first array with keys on in first array
-    // $mergedComponents = array_replace($components, $aclComponents);
-    $mergedProcesses = array_replace($processes, array_intersect_key($aclProcesses, $processes));
-    // 4) rebuild components with name key
-    $namedProcesses = [];
-    foreach($mergedProcesses as $process)
-    {
-        if (isset($namedProcesses[$process['name']]))
-        {
-            //error
-            return response()->json([
-                'error' => 'Duplicated process name found in this page!',
-            ]);
-        }
-        else
-            $namedProcesses[$process['name']] = $process;
     }
+
     // 5) return processes
     return response()->json([
-        'processes' => $namedProcesses,
+        'users' => $roles,
     ]);
+
 
 });
 
+//Route::get('/test/users', 'UserController@lists');
 
 

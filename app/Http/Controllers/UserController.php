@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 
 use App\Http\Requests;
+use Tymon\JWTAuth\Facades\JWTAuth;
 
 class UserController extends Controller
 {
@@ -20,6 +21,16 @@ class UserController extends Controller
     public function show(Request $request)
     {
         return $request->user();
+    }
+    public function lists(Request $request)
+    {
+        // 1) first get user from token to check validation
+        // $user = JWTAuth::parseToken()->authenticate();
+        //$user = $request->user();
+
+        return $user;
+
+
     }
     
 }

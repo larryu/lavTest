@@ -1,11 +1,7 @@
 <template>
     <div id="home">
-        <keep-alive>
         <app-menu></app-menu>
-        </keep-alive>
-        <keep-alive>
-        <app-tabs></app-tabs>
-        </keep-alive>
+        <!--<app-tabs></app-tabs>-->
         <div id="mainbody">
             <div class="mainbody-view">
             <transition name="fade" mode="out-in">

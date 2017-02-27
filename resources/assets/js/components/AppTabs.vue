@@ -47,6 +47,11 @@
                 .then((response) => {
                     console.log('AppTabs vue created response=', response);
                     this.setActiveTab(this.$route.path);
+                    if (this.$route.path == '/') {
+                        this.$router.push( {path: '/orderdetails' } );
+                    }
+                    else
+                        this.$router.push( {path: this.$route.path} );
                 })
                 .catch((error) => {
                     console.log('AppTabs vue created error=', error);

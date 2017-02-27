@@ -1,5 +1,6 @@
 
 require('./bootstrap');
+
 import router  from './router'
 import store from './store/index';
 import jwtToken from './helpers/jwt-token';
