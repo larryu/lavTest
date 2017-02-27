@@ -18,7 +18,7 @@ class MenuController extends Controller
         $userId = $user->email;
 
         // 2) get all menus
-        $menus = Menu::where('active', 1)->get(['*', DB::raw('"RW" as permission')])->keyBy('id')->toArray();
+        $menus = Menu::where('active', 1)->get(['*', DB::raw("'RW' as permission")])->keyBy('id')->toArray();
         //$treeMenus = Menu::buildTreeMenus($menus, 'id', 'parent_id');
         $treeMenus = Menu::getTreeMenus($menus, 'parent_id', 'id');
 

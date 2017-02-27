@@ -24,7 +24,7 @@ class ProcessController extends Controller
 
         // 2) get all processes belongs to this component
         $processes = Process::where('active', 1)->where('component_id', $component->id)
-            ->get(['*', DB::raw('"RW" as permission')])->keyBy('id')->toArray();
+            ->get(['*', DB::raw("'RW' as permission")])->keyBy('id')->toArray();
         // 2) get accessible processes based on user
         $aclProcesses = $user->getAclResourceByType(ResourceType::PROCESS);
         // 3) rebuild $mergedProcesses

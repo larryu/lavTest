@@ -10,6 +10,7 @@ import menu from "./modules/menu";
 import tab from "./modules/tab";
 import orderDetails from "./modules/order-details";
 import cashSaleDetails from  "./modules/cash-sale-details"
+import role from "./modules/role"
 
 Vue.use(Vuex);
 
@@ -22,7 +23,7 @@ export default new Vuex.Store({
         tab,
         orderDetails,
         cashSaleDetails,
-
+        role,
     },
     strict: true
 });

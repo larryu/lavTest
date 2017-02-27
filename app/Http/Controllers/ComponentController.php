@@ -24,7 +24,7 @@ class ComponentController extends Controller
 
         // 2) get all components belongs to this page
         $components = Component::where('active', 1)->where('page_id', $page->id)
-                                 ->get(['*', DB::raw('"RW" as permission')])->keyBy('id')->toArray();
+                                 ->get(['*', DB::raw("'RW' as permission")])->keyBy('id')->toArray();
         // 2) get accessible components based on user
         $aclComponents = $user->getAclComponents();
         // 3) rebuild $mergedComponents

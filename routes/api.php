@@ -17,16 +17,17 @@ Route::group(['middleware' => 'jwt.auth'], function()
     Route::get('tabs', 'TabController@show');
     Route::get('components', 'ComponentController@show');
     Route::get('processes', 'ProcessController@show');
+    Route::get('roles', 'RoleController@lists');
 });
 
-Route::get('roles', function() {
-    return Role::all();
-});
-
-
-Route::get('user_groups', function() {
-    return UserGroup::all();
-});
+//Route::get('roles', function() {
+//    return Role::all();
+//});
+//
+//
+//Route::get('user_groups', function() {
+//    return UserGroup::all();
+//});
 
 
 // Route::get('menus', function() {

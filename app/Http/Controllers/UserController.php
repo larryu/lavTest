@@ -20,7 +20,16 @@ class UserController extends Controller
     }
     public function show(Request $request)
     {
-        return $request->user();
+        $user = $request->user();
+        $roles = $user->roles();
+        $roleNames = [];
+        foreach($roles as $role)
+        {
+            $roleNames[] = $role->name;
+        }
+        $roleName = implode(',', $roleNames);
+        $user['roleName'] = $roleName;
+        return $user;
     }
     public function lists(Request $request)
     {

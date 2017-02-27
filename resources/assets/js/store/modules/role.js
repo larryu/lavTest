@@ -17,7 +17,8 @@ export default {
             console.log('types.SET_ROLES state=', state);
             let rolesArray = payload.roles;
             console.log('types.SET_ROLES rolesArray=', rolesArray);
-            state.roles = JSON.parse(rolesArray);
+            //state.roles = JSON.parse(rolesArray);
+            state.roles = rolesArray;
         },
         [types.UNSET_ROLES] (state, payload) {
             console.log('types.UNSET_ROLES payload=', payload);

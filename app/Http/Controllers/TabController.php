@@ -17,7 +17,7 @@ class TabController extends Controller
         $userId = $user->email;
 
         // 2) get all tabs
-        $tabs = Tab::where('active', 1)->get(['*', DB::raw('"RW" as permission')])->keyBy('id')->toArray();
+        $tabs = Tab::where('active', 1)->get(['*', DB::raw("'RW' as permission")])->keyBy('id')->toArray();
 
         // 2) get accessible tabs based on user
         $aclTabs = $user->getAclTabs();
