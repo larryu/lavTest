@@ -38,7 +38,7 @@
                     </li>
                 </ul>
                 <ul class="nav navbar-nav navbar-right"  v-if="user.authenticated">
-                    <li><a >{{ user.roleName }}</a></li>
+                    <li><a >{{ user.role }}</a></li>
                     <li><a >Hi {{ user.name }}</a></li>
                     <li><a  @click.prevent="logout()">Logout</a></li>
                 </ul>

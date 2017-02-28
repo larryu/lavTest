@@ -21,4 +21,32 @@ class Role extends Model
     {
         return $this->permissions()->save($permission);
     }
+    /**
+     * @param $flat
+     * @param $pidKey
+     * @param null $idKey
+     * @return mixed
+     */
+    static public function getTreeRoles($flat, $pidKey, $idKey = null)
+    {
+        $grouped = array();
+        $rootId = $flat[0]['parent_id'];
+        foreach ($flat as $sub){
+            $grouped[$sub[$pidKey]][] = $sub;
+        }
+        $fnBuilder = function($siblings) use (&$fnBuilder, $grouped, $idKey) {
+            foreach ($siblings as $k => $sibling) {
+                $id = $sibling[$idKey];
+                if(isset($grouped[$id])) {
+                    $sibling['children'] = $fnBuilder($grouped[$id]);
+                }
+                $siblings[$k] = $sibling;
+            }
+
+            return $siblings;
+        };
+        $tree = $fnBuilder($grouped[$rootId]);
+
+        return $tree;
+    }
 }

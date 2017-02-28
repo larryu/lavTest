@@ -57,6 +57,7 @@ class User extends Authenticatable
         $roles = Role::join('groups', 'groups.role_id', '=', 'roles.id')
             ->join('user_group', 'groups.id', '=', 'user_group.group_id')
             ->whereRaw('user_group.user_id = ? and roles.active = 1 and groups.active = 1 and user_group.active = 1', [$this->id])
+            ->orderBY('roles.id', 'asc')
             ->get(['roles.*']);
         return $roles;
     }

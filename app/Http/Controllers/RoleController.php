@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Tymon\JWTAuth\Facades\JWTAuth;
+use App\Models\Role;
 use DB;
 
 class RoleController extends Controller
@@ -29,20 +30,25 @@ class RoleController extends Controller
                         ret r ON t.parent_id = r.id
                 )
                 SELECT  *
-                FROM    ret where id <> ?
+                FROM    ret order by id asc
         ";
+
         $roleRets = [];
-        foreach($roles as $role){
-            $ret = DB::select($rawSql, array($role->id, $role->id));
-            if (count($ret) > 1)
-            {
-                $roleRets[] = $ret;
+        foreach($roles as $role)
+        {
+            if ($role->canEdit) {
+                $rets = DB::select($rawSql, array($role->id));
+                $rets = json_decode(json_encode($rets), true);
+                if (count($rets) > 0) {
+                    $treeRoles = Role::getTreeRoles($rets, 'parent_id', 'id');
+                    $roleRets[$role->id] = $treeRoles;
+                }
             }
         }
-
         // 4) return processes
         return response()->json([
-            'roles' => $roleRets,
+            'assingedRoles' => json_encode($roles),
+            'childRoles' => json_encode($roleRets),
         ]);
     }
 }

@@ -18,6 +18,7 @@ class CreateRolesTable extends Migration
             $table->string('name')->unique();
             $table->string('comment')->nullable();
             $table->integer('parent_id');
+            $table->boolean('can_edit')->default(false);
             $table->boolean('active')->default(true);
             $table->timestamps();
             $table->integer('created_by')->default(0);

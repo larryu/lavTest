@@ -27,15 +27,15 @@ class UserController extends Controller
         {
             $roleNames[] = $role->name;
         }
-        $roleName = implode(',', $roleNames);
-        $user['roleName'] = $roleName;
+        $roleName = implode(', ', $roleNames);
+        $user['role'] = $roleName;
         return $user;
     }
     public function lists(Request $request)
     {
         // 1) first get user from token to check validation
         // $user = JWTAuth::parseToken()->authenticate();
-        //$user = $request->user();
+        $user = $request->user();
 
         return $user;
 

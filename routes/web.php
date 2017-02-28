@@ -17,12 +17,12 @@ Route::get('/{vue_capture?}', function () {
 
 Route::get('/test/users', function() {
 
-    $user = App\Models\User::find(11);
+    $user = App\Models\User::find(13);
 
     // 1) get the role of the user
     $roles = $user->roles();
 
-    // 2) check whether the roles have children
+    // 3) check whether the roles have children
     $rawSql = "
                 WITH ret AS(
                   SELECT  *
@@ -34,11 +34,22 @@ Route::get('/test/users', function() {
                         ret r ON t.parent_id = r.id
                 )
                 SELECT  *
-                FROM    ret where id <> ?
-    ";
+                FROM    ret order by id asc
+        ";
+
     $roleRets = [];
-    foreach($roles as $role){
-        $roleRets[] = DB::select($rawSql, array($role->id, $role->id));
+    foreach($roles as $role)
+    {
+        if ($role->canEdit) {
+            $rets = DB::select($rawSql, array($role->id));
+            $rets = json_decode(json_encode($rets), true);
+
+            if (count($rets) > 0) {
+
+                $treeRoles = App\Models\Role::getTreeRoles($rets, 'parent_id', 'id');
+                $roleRets[$role->id] = $treeRoles;
+            }
+        }
     }
 
     // 5) return processes

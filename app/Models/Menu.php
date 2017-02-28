@@ -14,6 +14,13 @@ class Menu extends Model
     protected $hidden = [
         'created_at', 'created_by', 'updated_by', 'updated_at', 'active',
     ];
+
+    /**
+     * @param $flat
+     * @param $pidKey
+     * @param null $idKey
+     * @return mixed
+     */
     static public function getTreeMenus($flat, $pidKey, $idKey = null)
     {
         $grouped = array();
@@ -37,6 +44,14 @@ class Menu extends Model
 
         return $tree;
     }
+
+    /**
+     * @param array $array
+     * @param string $idKeyName
+     * @param string $parentIdKey
+     * @param string $childNodesField
+     * @return array
+     */
     static public function buildTreeMenus(array $array, $idKeyName = 'id', $parentIdKey = 'parent_id', $childNodesField = 'children')
     {
         $indexed = array();

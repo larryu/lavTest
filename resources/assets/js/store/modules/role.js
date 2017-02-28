@@ -6,19 +6,21 @@ import * as types from './../../mutation-types';
 
 export default {
     state: {
-        roles: [],
+        roles: {
+            assingedRoles: [],
+            childRoles: [],
+        }
+
     },
     getters: {
         allRoles: state => state.roles,
     },
     mutations: {
         [types.SET_ROLES] (state, payload) {
-            console.log('types.SET_ROLES payload=', payload.roles);
+            console.log('types.SET_ROLES payload=', payload);
             console.log('types.SET_ROLES state=', state);
-            let rolesArray = payload.roles;
-            console.log('types.SET_ROLES rolesArray=', rolesArray);
-            //state.roles = JSON.parse(rolesArray);
-            state.roles = rolesArray;
+            state.roles.assingedRoles = JSON.parse(payload.roles.assingedRoles);
+            state.roles.childRoles = JSON.parse(payload.roles.childRoles);
         },
         [types.UNSET_ROLES] (state, payload) {
             console.log('types.UNSET_ROLES payload=', payload);
@@ -34,7 +36,7 @@ export default {
                     .then(response => {
                         commit({
                             type: types.SET_ROLES,
-                            roles: response.body.roles
+                            roles: response.body
                         });
                         resolve(response);
                     })

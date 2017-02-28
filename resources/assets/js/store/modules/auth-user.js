@@ -6,7 +6,8 @@ export default {
     state: {
         authenticated: false,
         name: null,
-        email: null
+        email: null,
+        role: null,
     },
     mutations: {
         [types.UPDATE_AUTH_USER_NAME] (state, payload) {
@@ -21,11 +22,13 @@ export default {
             state.authenticated = true;
             state.name = payload.user.name;
             state.email = payload.user.email;
+            state.role = payload.user.role;
         },
         [types.UNSET_AUTH_USER] (state, payload) {
             state.authenticated = false;
             state.name = null;
             state.email = null;
+            state.role = null;
         }
     },
     actions: {
